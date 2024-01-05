@@ -9,3 +9,6 @@ El programa de la máquina de Turing debe de reconocer el lenguaje {0^n1^n | n>=
 2. La salida del programa debe ser a un archivo de texto y utilizando descripciones instantáneas en cada paso de la computación.
 3. Animar la máquina de Turing con cadenas menores iguales a 16 caracteres.
 4. Poner el código en el reporte y subir el código fuente al classroom.
+
+## Información importante:
+Instalar la custom font _**vcr osd mono**_, que se encuentra en la carpeta resources.
