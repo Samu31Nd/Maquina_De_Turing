@@ -10,6 +10,8 @@ public class ProgramPanel extends JPanel implements ActionListener {
     String headState;
 
     //variables de dibujo
+
+    static final int velocity = 3;
     static Font font = new Font("VCR OSD Mono", Font.BOLD,28); FontMetrics metrics;
     static final int WIDTH = 1400, HEIGHT = 500; Graphics2D canvas;
     static final Dimension PANEL_SIZE = new Dimension(WIDTH, HEIGHT);
@@ -18,7 +20,7 @@ public class ProgramPanel extends JPanel implements ActionListener {
 
     //head parameters
     public int startPos, endPos, distanceMoved = 0;
-    public static int headPos = 2, direction; int headXPos = 0;
+    public static int headPos = 1, direction; int headXPos = 0;
 
     //boolean values
     public static boolean areWeMovingNow = true, isSetDirection = false;
@@ -30,8 +32,8 @@ public class ProgramPanel extends JPanel implements ActionListener {
 
         timer = new Timer(10,this);
         timer.start();
-        binaryString = Main.getBinaryString();
-        headState = Main.getHeadState();
+        binaryString = TuringMachine.getBinaryString();
+        headState = TuringMachine.getHeadState();
         setDirectionRight();
     }
 
@@ -96,7 +98,7 @@ public class ProgramPanel extends JPanel implements ActionListener {
 
         for(int i = 0; i < binaryString.length; i++) {
             canvas.setColor(ProgramFrame.Color_black);
-            drawString(12 + boxNumberWidth / 3 + (_xSpacing * (i + 1)), (_TapeHeight - rectangleHeight) / 2 + miniRectSpacing * 2 + miniRectHeight * 2 + metrics.getHeight(), i);
+            drawString(12 + boxNumberWidth / 3 + (_xSpacing * (i)), (_TapeHeight - rectangleHeight) / 2 + miniRectSpacing * 2 + miniRectHeight * 2 + metrics.getHeight(), i);
         }
         for(int i = 0; i < 22; i++) {
             canvas.drawRect(12 + (_xSpacing*i),(_TapeHeight - rectangleHeight)/2 + miniRectSpacing*2 + miniRectHeight,boxNumberWidth,boxNumberHeight);
@@ -145,22 +147,30 @@ public class ProgramPanel extends JPanel implements ActionListener {
         }
     }
 
+        Boolean check;
     void checkArrival(){
-        if(startPos + distanceMoved == endPos && startPos != 0){
+        //nos estamos moviendo a la derecha
+        if(direction>0) check = startPos + distanceMoved > endPos;
+        else check = startPos + distanceMoved < endPos;
+        //if(startPos + distanceMoved == endPos && startPos != 0){
+        if(check && startPos != 0){
             headPos += direction;
             startPos = headXPos = endPos;
             distanceMoved = 0;
-            stopMoving();
-            areWeMovingNow = isSetDirection = false;
             checkMachineChanges();
-        } else distanceMoved+=direction;
+            areWeMovingNow = true;
+            isSetDirection = false;
+        } else distanceMoved+=direction*velocity;
     }
 
     //debemos hacer que la maquina cambie paso por paso
-    void checkMachineChanges(){
-        Main.step();
+    void checkMachineChanges() {
+        TuringMachine.step();
+        binaryString = TuringMachine.getBinaryString();
+        headState = TuringMachine.getHeadState();
+        if (TuringMachine.getMoviment() == 'L')
+            setDirectionLeft();
+        else setDirectionRight();
     }
-
-    void stopMoving (){ direction = 0; }
     void setDirectionLeft(){ direction = -1; } void setDirectionRight(){ direction = 1; }
 }
