@@ -4,12 +4,13 @@ import java.util.*;
 
 public class MiscUtils {
 
+    static final int errorInterval = 5;
     public String generateBinary() {
         return this.generateBinary(16,2);
     }
 
     public String generateBinary(int bound) {
-        return this.generateBinary(bound,2);
+        return this.generateBinary(bound,errorInterval);
     }
 
     public String generateBinary(int bound, int interval) {

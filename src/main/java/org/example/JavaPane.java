@@ -5,10 +5,6 @@ import javax.swing.*;
 public class JavaPane {
     static String binaryNumber;
     static int option;
-    static void ShowNotDefinedDialog(){
-        JOptionPane.showMessageDialog(null,
-                "This string is not defined by the language.");
-    }
 
     static void showFinalDialog(String message){
         JOptionPane.showMessageDialog(null,

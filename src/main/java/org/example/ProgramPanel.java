@@ -9,21 +9,21 @@ public class ProgramPanel extends JPanel implements ActionListener {
     char []binaryString;
     String headState;
 
-    //variables de dibujo
-
+    //drawing variables
     static final int velocity = 3;
+
     static Font font = new Font("VCR OSD Mono", Font.BOLD,28); FontMetrics metrics;
     static final int WIDTH = 1400, HEIGHT = 500; Graphics2D canvas;
     static final Dimension PANEL_SIZE = new Dimension(WIDTH, HEIGHT);
     Timer timer;
-    int superXmini_cubes = -34; int _TapeHeight = 400;
+    int superXMini_cubes = -34; int _TapeHeight = 400;
 
     //head parameters
     public int startPos, endPos, distanceMoved = 0;
     public static int headPos = 1, direction; int headXPos = 0;
 
     //boolean values
-    public static boolean areWeMovingNow = true, isSetDirection = false;
+    public boolean areWeMovingNow = true, isSetDirection = false;
 
     ProgramPanel() {
 
@@ -82,8 +82,8 @@ public class ProgramPanel extends JPanel implements ActionListener {
         //drawing mini-cubes
         int mini_xSpacing = 20;
         for(int i = 0; i < 80; i++){
-            canvas.fillRect(superXmini_cubes + (mini_xSpacing*i),(_TapeHeight - rectangleHeight)/2 + miniRectSpacing,miniRectWidth,miniRectHeight);
-            canvas.fillRect(superXmini_cubes + (mini_xSpacing*i),(_TapeHeight + rectangleHeight)/2 - miniRectSpacing - miniRectHeight,miniRectWidth,miniRectHeight);
+            canvas.fillRect(superXMini_cubes + (mini_xSpacing*i),(_TapeHeight - rectangleHeight)/2 + miniRectSpacing,miniRectWidth,miniRectHeight);
+            canvas.fillRect(superXMini_cubes + (mini_xSpacing*i),(_TapeHeight + rectangleHeight)/2 - miniRectSpacing - miniRectHeight,miniRectWidth,miniRectHeight);
         }
 
     }
@@ -149,10 +149,8 @@ public class ProgramPanel extends JPanel implements ActionListener {
 
         Boolean check;
     void checkArrival(){
-        //nos estamos moviendo a la derecha
         if(direction>0) check = startPos + distanceMoved > endPos;
         else check = startPos + distanceMoved < endPos;
-        //if(startPos + distanceMoved == endPos && startPos != 0){
         if(check && startPos != 0){
             headPos += direction;
             startPos = headXPos = endPos;
@@ -163,12 +161,12 @@ public class ProgramPanel extends JPanel implements ActionListener {
         } else distanceMoved+=direction*velocity;
     }
 
-    //debemos hacer que la maquina cambie paso por paso
+    //making the machine change, step by step
     void checkMachineChanges() {
         TuringMachine.step();
         binaryString = TuringMachine.getBinaryString();
         headState = TuringMachine.getHeadState();
-        if (TuringMachine.getMoviment() == 'L')
+        if (TuringMachine.getMovement() == 'L')
             setDirectionLeft();
         else setDirectionRight();
     }

@@ -28,6 +28,10 @@ public class ProgramFrame extends JFrame {
         setBasicParameters();
     }
 
+    public void stop(){
+        panel.areWeMovingNow = false;
+    }
+
     public void setDarkTheme(){
         Color_base = new Color(36, 39, 58);
         Color_overlay2 = new Color(147, 154, 183);
